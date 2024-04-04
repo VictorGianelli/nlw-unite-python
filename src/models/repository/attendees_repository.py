@@ -1,4 +1,5 @@
 from typing import Dict, List
+from src.errors.error_types.http_conflict import HttpConflictError
 from src.models.entities.check_ins import CheckIns
 from src.models.settings.connection import db_connection_handler
 from src.models.entities.attendees import Attendees
@@ -26,7 +27,7 @@ class AttendeesRepository:
                 return attendee_info
 
             except IntegrityError:
-                raise Exception('Participante já cadastrado')
+                raise HttpConflictError('Participante já cadastrado')
             except Exception as exception:
                 database.session.rollback()
                 raise exception

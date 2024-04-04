@@ -1,4 +1,5 @@
 from typing import Dict
+from src.errors.error_types.http_conflict import HttpConflictError
 from src.models.settings.connection import db_connection_handler
 from src.models.entities.events import Events
 from src.models.entities.attendees import Attendees
@@ -21,7 +22,7 @@ class EventsRepository:
 
                 return eventsInfo
             except IntegrityError:
-                raise Exception('Evento já cadastrado')
+                raise HttpConflictError('Evento já cadastrado')
             except Exception as exception:
                 database.session.rollback()
                 raise exception
